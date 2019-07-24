@@ -3,35 +3,17 @@
 <head>
 <title>Simple Calculator</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script>
-function insert(num){
-	document.form.textview.value=document.form.textview.value+num
-	}
-function equal(){
-	var exp=document.form.textview.value;
-	if (exp){
-	document.form.textview.value=eval(exp)
-	}
-	}	
-function clean(){
-	document.form.textview.value=""
-	}
-function back(){
-	var exp=document.form.textview.value;
-	document.form.textview.value=exp.substr(0,exp.length-1)
-	}
-</script>
 <style>
 body{
-	background-color: #ED0C50;
+	background-color: #ffffff;
 	}
 *{
 	margin:0;
 	padding:0;
 	}
 .main{
-	background-color:#00C;
-	width:226.5px;
+	background-color: #000000;
+	width:226px;
 	opacity:.7;
 	position:absolute;
 	top:50%;
@@ -39,68 +21,117 @@ body{
 	transform:translateX(-50%) translateY(-50%);
 	border-radius:5px;
 }
-.button{
+button{
 	width:50px;
 	height:50px;
 	font-size:25px;
 	margin:2px;
 	cursor:pointer;
 	color: #FFF;
-	background-color:#666;
+	background-color:rgb(68, 95, 247);
 	border-radius:5px;
 	border:thin;
 	}
-.button:hover{
-	background-color:#C99;
+button:hover{
+	background-color: rgb(68, 140, 247);
 	}
 .textview{
-	width:204px;
-	margin:5px;
+	width:207px;
+	margin:4px;
 	font-size:25px;
 	padding:5px;
 	text-align:right;
 	border-radius:5px;
 	border:thin;
+	background-color: rgb(236, 231, 231);
 	}
+[rowspan] button{
+    height: 106px;
+}
+[colspan] button{
+    width: 106px;
+}
 </style>
 </head>
 <body>
-<div class="bg">
 <div class="main">
-	<form name="form">
-		<input class="textview" name="textview" placeholder="0">
-	</form>
+	
+	<input class="textview" name="textview" placeholder="0">
+	
 	<table>
 		<tr>
-			<td><input class="button" type="button" value="C" onClick="clean()"></td>
-			<td><input class="button" type="button" value="<" onClick="back()"></td>
-			<td><input class="button" type="button" value="/" onClick="insert('/')"></td>
-			<td><input class="button" type="button" value="x" onClick="insert('*')"></td>
+            <td><button value="clean">C</button></td>
+			<td><button value="back">&larr;</button></td>
+			<td><button value="/">&divide;</button></td>
+			<td><button value="*">&times;</button></td>
 		</tr>
 		<tr>
-			<td><input class="button" type="button" value="1" onClick="insert(1)"></td>
-			<td><input class="button" type="button" value="2" onClick="insert(2)"></td>
-			<td><input class="button" type="button" value="3" onClick="insert(3)"></td>
-			<td><input class="button" type="button" value="-" onClick="insert('-')"></td>
+			<td><button value="1">1</button></td>
+			<td><button value="2">2</button></td>
+			<td><button value="3">3</button></td>
+			<td><button value="-">&minus;</button></td>
 		</tr>
 		<tr>
-			<td><input class="button" type="button" value="4" onClick="insert(4)"></td>
-			<td><input class="button" type="button" value="5" onClick="insert(5)"></td>
-			<td><input class="button" type="button" value="6" onClick="insert(6)"></td>
-			<td><input class="button" type="button" value="+" onClick="insert('+')"></td>
+			<td><button value="4">4</button></td>
+			<td><button value="5">5</button></td>
+			<td><button value="6">6</button></td>
+			<td><button value="+">&plus;</button></td>
 		</tr>
 		<tr>
-			<td><input class="button" type="button" value="7" onClick="insert(7)"></td>
-			<td><input class="button" type="button" value="8" onClick="insert(8)"></td>
-			<td><input class="button" type="button" value="9" onClick="insert(9)"></td>
-			<td rowspan="2"><input class="button" style="height:106px;" type="button" value="=" onClick="equal()"></td>
+			<td><button value="7">7</button></td>
+			<td><button value="8">8</button></td>
+			<td><button value="9">9</button></td>
+			<td rowspan="2"><button value="equals">&equals;</button></td>
 		</tr>
 		<tr>
-			<td colspan="2"><input class="button" style="width:106px;" type="button" value="0" onClick="insert(0)"></td>
-			<td><input class="button" type="button" value="." onClick="insert('.')"></td>
+			<td colspan="2"><button value="0">0</button></td>
+			<td><button value=".">.</button></td>
 		</tr>
 	</table>
+</table>
 </div>
-</div>
+<script>
+    const view = document.querySelector('.textview');
+    const insert = ({target}) => {
+        const exp = view.value;
+        view.focus();
+        view.value += target.value;
+    }
+    const equal = () => {
+        const exp = view.value;
+        if (exp){
+        view.value = eval(exp);
+        }
+    }	
+    const clean = () => {
+        view.value = "";
+    }
+    const back = () => {
+        const exp = view.value;
+        view.value = exp.substr(0, exp.length - 1);
+    }
+    
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach(button => {
+        switch (button.value) {
+            case 'clean':
+                button.addEventListener('click', clean);
+                break;
+            
+            case 'back':
+                button.addEventListener('click', back);
+                break;
+                
+            case 'equals':
+                button.addEventListener('click', equal);
+                break;
+        
+            default:
+                button.addEventListener('click', insert);
+                break;
+        }
+        
+    });
+</script>
 </body>
 </html>
